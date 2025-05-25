@@ -8,9 +8,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private SpriteRenderer sprite;
     [SerializeField] private Rigidbody2D body;
     [SerializeField] private Animator anim;
-    [SerializeField] private bool grounded;
+    [SerializeField] private LayerMask groundLayer;
     private bool canDoubleJump;
-
+    private BoxCollider2D boxCollider;
 
     private void Update()
     {
@@ -22,25 +22,32 @@ public class PlayerMovement : MonoBehaviour
         else if (horizontalInput < 0f)
             sprite.flipX = true;
 
-        if (Input.GetKeyDown(KeyCode.Space) && (grounded || canDoubleJump))
+        if (Input.GetKeyDown(KeyCode.Space) && (isGrounded() || canDoubleJump))
         {
-            canDoubleJump = grounded;
+            canDoubleJump = isGrounded();
             Jump();
         }
 
         anim.SetBool("Run", Mathf.Abs(horizontalInput) > 0.5f);
-        anim.SetBool("Grounded", grounded);
+        anim.SetBool("Grounded", isGrounded());
     }
 
     private void Jump()
     {
         body.linearVelocity = new Vector2(body.linearVelocityX, movementSpeedY);
-        grounded = false;
+        anim.SetTrigger("Jump");
+ 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Ground")
-            grounded = true;
+ 
+    }
+
+    private bool isGrounded()
+    {
+        RaycastHit2D raycastHit2D = Physics2D.BoxCast(boxCollider.bounds.center, boxCollider.bounds.size, 0, Vector2.down, 0.1f, groundLayer);
+        RaycastHit2D raycastHit = raycastHit2D;
+        return raycastHit.collider != null;
     }
 }
