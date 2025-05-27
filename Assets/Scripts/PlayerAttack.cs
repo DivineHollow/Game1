@@ -8,6 +8,7 @@ public class PlayerAttack : MonoBehaviour
     private Animator anim;
     private PlayerMovement playerMovement;
     private float cooldownTimer = Mathf.Infinity;
+    private int fireballIndex = 0;
 
     private void Awake()
     {
@@ -28,7 +29,12 @@ public class PlayerAttack : MonoBehaviour
         anim.SetTrigger("Attack");
         cooldownTimer = 0;
 
-        fireballs[0].transform.position = firePoint.position;
-        fireballs[0].GetComponent<Projecrile>().SetDirection(Mathf.Sign(transform.localScale.x)); 
+        GameObject fireball = fireballs[fireballIndex];
+        fireball.transform.position = firePoint.position;
+        fireball.SetActive(true);
+        fireball.GetComponent<Projectile>().SetDirection(Mathf.Sign(transform.localScale.x));
+
+        fireballIndex = (fireballIndex + 1) % fireballs.Length; 
     }
 }
+
