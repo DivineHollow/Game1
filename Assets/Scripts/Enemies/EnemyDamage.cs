@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyDamage : MonoBehaviour
 {
-    [SerializeField] private float damage = 1f;
+    [SerializeField] protected float damage = 1f;
     [SerializeField] private float damageInterval = 1f;
 
     private Dictionary<GameObject, float> damageTimers = new Dictionary<GameObject, float>();
@@ -37,7 +37,7 @@ public class EnemyDamage : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    protected void OnTriggerExit2D(Collider2D collision)
     {
         if (damageTimers.ContainsKey(collision.gameObject))
         {
