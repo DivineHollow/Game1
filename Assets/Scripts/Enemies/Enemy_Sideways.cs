@@ -1,13 +1,21 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy_Sideways : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float movementDistance;
     [SerializeField] private float speed;
+
+    [Header("Damage")]
     [SerializeField] private float damage;
+    [SerializeField] private float damageInterval = 1f;
+
     private bool movingLeft;
     private float leftEdge;
     private float rightEdge;
+
+    private Dictionary<GameObject, float> damageTimers = new Dictionary<GameObject, float>();
 
     private void Awake()
     {
@@ -35,13 +43,39 @@ public class Enemy_Sideways : MonoBehaviour
             else
                 movingLeft = true;
         }
+
+        List<GameObject> keys = new List<GameObject>(damageTimers.Keys);
+        foreach (GameObject obj in keys)
+        {
+            damageTimers[obj] -= Time.deltaTime;
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (!collision.CompareTag("Player")) return;
+
+        if (!damageTimers.ContainsKey(collision.gameObject))
         {
-            collision.GetComponent<Health>().TakeDamage(damage);
+            damageTimers[collision.gameObject] = 0f;
+        }
+
+        if (damageTimers[collision.gameObject] <= 0f)
+        {
+            Health health = collision.GetComponent<Health>();
+            if (health != null)
+            {
+                health.TakeDamage(damage);
+                damageTimers[collision.gameObject] = damageInterval;
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (damageTimers.ContainsKey(collision.gameObject))
+        {
+            damageTimers.Remove(collision.gameObject);
         }
     }
 }
