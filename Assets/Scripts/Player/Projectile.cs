@@ -3,6 +3,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField]private float Speed;
+    [SerializeField]private float Damage;
     private float direction;
     private bool hit;
     
@@ -27,6 +28,10 @@ public class Projectile : MonoBehaviour
         hit = true;
         boxCollider.enabled = false;
         anim.SetTrigger("Explode");
+
+        if (collision.CompareTag("Enemy"))
+            collision.GetComponent<Health>().TakeDamage(Damage);
+
     }
 
     public void SetDirection(float direction1)

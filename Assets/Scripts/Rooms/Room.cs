@@ -16,7 +16,6 @@ public class Room : MonoBehaviour
     }
     public void ActivateRoom(bool _status)
     {
-        //Activate/deactivate enemies
         for (int i = 0; i < enemies.Length; i++)
         {
             if (enemies[i] != null)
