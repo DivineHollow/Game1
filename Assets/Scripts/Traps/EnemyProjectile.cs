@@ -4,10 +4,12 @@ public class EnemyProjectile : EnemyDamage
 {
     [SerializeField] private float speed;
     [SerializeField] private float resetTime;
+
     private float lifetime;
     private Animator anim;
     private BoxCollider2D coll;
     private bool hit;
+    private int direction = 1;
 
     private void Awake()
     {
@@ -21,19 +23,22 @@ public class EnemyProjectile : EnemyDamage
         lifetime = 0;
         gameObject.SetActive(true);
         coll.enabled = true;
+    }
 
-        if (anim != null)
-        {
-            anim.Rebind();
-            anim.Update(0f);
-        }
+    public void SetDirection(int _direction)
+    {
+        direction = _direction;
+        Vector3 localScale = transform.localScale;
+        localScale.x = Mathf.Abs(localScale.x) * direction;
+        transform.localScale = localScale;
     }
 
     private void Update()
     {
         if (hit) return;
+
         float movementSpeed = speed * Time.deltaTime;
-        transform.Translate(movementSpeed, 0, 0);
+        transform.Translate(Vector3.right * direction * movementSpeed);
 
         lifetime += Time.deltaTime;
         if (lifetime > resetTime)
@@ -43,19 +48,19 @@ public class EnemyProjectile : EnemyDamage
     private void OnTriggerEnter2D(Collider2D collision)
     {
         hit = true;
+
         if (collision.CompareTag("Player"))
         {
             Health health = collision.GetComponent<Health>();
             if (health != null)
-            {
                 health.TakeDamage(damage);
-            }
         }
+
         coll.enabled = false;
-        
+
         if (anim != null)
             anim.SetTrigger("Explode");
-        else 
+        else
             gameObject.SetActive(false);
     }
 
