@@ -11,6 +11,9 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D boxCollider;
     private float wallJumpCooldown;
     private float horizontalInput;
+
+    [Header("SFX")]
+    [SerializeField]private AudioClip jumpSound;
  
     private void Awake()
     {
@@ -44,7 +47,13 @@ public class PlayerMovement : MonoBehaviour
                 body.gravityScale = 5;
 
             if (Input.GetKey(KeyCode.Space))
+            {
                 Jump();
+
+                if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
+                    SoundManager.instance.PlaySound(jumpSound);
+            }
+                
         }
         else
             wallJumpCooldown += Time.deltaTime; 

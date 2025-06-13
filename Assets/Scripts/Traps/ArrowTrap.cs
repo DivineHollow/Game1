@@ -8,6 +8,9 @@ public class ArrowTrap : MonoBehaviour
     [SerializeField] private float triggerRange;
     [SerializeField] private LayerMask playerLayer;
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip arrowSound;
+
     private float cooldownTimer;
 
     private void Update()
@@ -24,8 +27,8 @@ public class ArrowTrap : MonoBehaviour
 
     private void Attack()
     {
+        SoundManager.instance.PlaySound(arrowSound);
         cooldownTimer = 0f;
-
         int arrowIndex = FindArrow();
         if (arrowIndex != -1)
         {
