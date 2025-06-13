@@ -179,8 +179,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42908ad6467bee04f863ec3117a659d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeedX: 10
-  movementSpeedY: 20
+  speed: 10
+  jumpPower: 20
+  coyoteTime: 0.25
+  extraJumps: 1
+  wallJumpX: 1500
+  wallJumpY: 750
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -202,29 +206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCooldown: 0
   firePoint: {fileID: 3618800860938177458}
-  fireballs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  fireballSound: {fileID: 0}
+  fireballs: []
+  fireballSound: {fileID: 8300000, guid: 753a91a48f98ec8448703a146c191eab, type: 3}
 --- !u!95 &1978291359010001814
 Animator:
   serializedVersion: 7
