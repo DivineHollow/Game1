@@ -5,6 +5,8 @@ public class Door : MonoBehaviour
     [SerializeField] private Transform previousRoom;
     [SerializeField] private Transform nextRoom;
     [SerializeField] private CameraController cam;
+    [SerializeField] private bool end;
+    [SerializeField] private LoadingManager loadingManager;
 
     private void Awake()
     {
@@ -15,6 +17,12 @@ public class Door : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            if (end)
+            {
+                loadingManager.LoadNextLevel();
+                return;
+            }
+
             if (collision.transform.position.x < transform.position.x)
             {
                 cam.MoveToNewRoom(nextRoom);

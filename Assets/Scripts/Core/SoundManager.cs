@@ -10,14 +10,8 @@ public class SoundManager : MonoBehaviour
     {
         soundSource = GetComponent<AudioSource>();
         musicSource = transform.GetChild(0).GetComponent<AudioSource>();
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
 
-        else if (instance != null && instance != this)
-            Destroy(gameObject);
+        instance = this;
 
         ChangeMusicVolume(0);
         ChangeSFXVolume(0);

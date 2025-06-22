@@ -6,25 +6,34 @@ public class SelectionArrow : MonoBehaviour
     [SerializeField] private RectTransform[] buttons;
     [SerializeField] private AudioClip changeSound;
     [SerializeField] private AudioClip interactSound;
+
     private RectTransform arrow;
-    private int currentPosition;
+    private int currentPosition = 0;
 
     private void Awake()
     {
         arrow = GetComponent<RectTransform>();
     }
+
+    private void Start()
+    {
+        currentPosition = 0;
+        ChangePosition(0);
+    }
+
     private void OnEnable()
     {
         currentPosition = 0;
         ChangePosition(0);
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             ChangePosition(-1);
         if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             ChangePosition(1);
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) || Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.E))
             Interact();
     }
 
@@ -34,6 +43,7 @@ public class SelectionArrow : MonoBehaviour
 
         if (_change != 0)
             SoundManager.instance.PlaySound(changeSound);
+
         if (currentPosition < 0)
             currentPosition = buttons.Length - 1;
         else if (currentPosition > buttons.Length - 1)
@@ -41,10 +51,12 @@ public class SelectionArrow : MonoBehaviour
 
         AssignPosition();
     }
+
     private void AssignPosition()
     {
-        arrow.position = new Vector3(arrow.position.x, buttons[currentPosition].position.y);
+        arrow.position = new Vector3(arrow.position.x, buttons[currentPosition].position.y, 0f);
     }
+
     private void Interact()
     {
         SoundManager.instance.PlaySound(interactSound);

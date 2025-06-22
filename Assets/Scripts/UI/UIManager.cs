@@ -26,16 +26,19 @@ public class UIManager : MonoBehaviour
     #region Game Over Functions
     public void GameOver()
     {
+        Time.timeScale = 0;
         gameOverScreen.SetActive(true);
         SoundManager.instance.PlaySound(gameOverSound);
     }
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Time.timeScale = 1;
     }
     public void MainMenu()
     {
         SceneManager.LoadScene(0);
+        Time.timeScale = 1;
     }
     public void Quit()
     {

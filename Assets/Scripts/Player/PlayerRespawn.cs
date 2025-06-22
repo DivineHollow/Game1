@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerRespawn : MonoBehaviour
 {
     [SerializeField] private AudioClip checkpoint;
-    private Transform currentCheckpoint;
+    [SerializeField] private Transform currentCheckpoint;
     private Health playerHealth;
     private UIManager uIManager;
 

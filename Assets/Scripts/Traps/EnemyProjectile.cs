@@ -37,11 +37,12 @@ public class EnemyProjectile : EnemyDamage
     {
         if (hit) return;
 
+        lifetime += Time.deltaTime;
+
         float movementSpeed = speed * Time.deltaTime;
         transform.Translate(Vector3.right * direction * movementSpeed);
 
-        lifetime += Time.deltaTime;
-        if (lifetime > resetTime)
+        if (lifetime >= resetTime)
             gameObject.SetActive(false);
     }
 
@@ -62,10 +63,5 @@ public class EnemyProjectile : EnemyDamage
             anim.SetTrigger("Explode");
         else
             gameObject.SetActive(false);
-    }
-
-    private void Deactivate()
-    {
-        gameObject.SetActive(false);
     }
 }
