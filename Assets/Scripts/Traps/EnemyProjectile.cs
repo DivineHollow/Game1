@@ -64,4 +64,8 @@ public class EnemyProjectile : EnemyDamage
         else
             gameObject.SetActive(false);
     }
+    public void Deactivate()
+    {
+        gameObject.SetActive(false);
+    }
 }

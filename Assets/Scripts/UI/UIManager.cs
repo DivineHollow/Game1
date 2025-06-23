@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    [Header ("Game Over")]
+    [Header("Game Over")]
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private AudioClip gameOverSound;
 
@@ -21,6 +21,12 @@ public class UIManager : MonoBehaviour
         {
             PauseGame(!pauseScreen.activeInHierarchy);
         }
+    }
+
+    public void OnRestart()
+    {
+        gameOverScreen.SetActive(false);
+        Time.timeScale = 1;
     }
 
     #region Game Over Functions
